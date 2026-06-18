@@ -1,0 +1,218 @@
+/* RESET */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      /* FULL PAGE FIX */
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background: #e7e4e4;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* HEADER */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #1f2937;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        z-index: 1000;
+      }
+
+      nav button {
+        margin-left: 10px;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: opacity 0.2s;
+      }
+
+      nav button:hover {
+        opacity: 0.9;
+      }
+
+      #showSignIn {
+        background: #3b82f6;
+        color: white;
+      }
+      #showSignUp {
+        background: #10b981;
+        color: white;
+      }
+
+      /* MAIN CONTENT AREA */
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* HERO */
+      .hero {
+        margin-top: 80px;
+        text-align: center;
+        padding: 50px 20px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 40px;
+      }
+
+      /* FEATURES */
+      .features {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .feature-box {
+        width: 250px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* FORM MODAL OVERLAY */
+      .form-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+
+        /* Smooth Fade Configuration */
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .form-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* FORM BOX */
+      .form-container {
+        width: 90%;
+        max-width: 400px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        position: relative;
+
+        /* Smooth Pop-up scale effect */
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+      }
+
+      .form-overlay.active .form-container {
+        transform: scale(1);
+      }
+
+      /* CLOSE BUTTON */
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #888;
+      }
+
+      .close-btn:hover {
+        color: #333;
+      }
+
+      /* FORM ELEMENTS */
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      form h3 {
+        margin-bottom: 15px;
+        color: #1f2937;
+      }
+
+      input {
+        padding: 12px;
+        margin: 8px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      input:focus {
+        outline: 2px solid #3b82f6;
+      }
+
+      button[type="submit"] {
+        padding: 12px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 15px;
+        font-weight: bold;
+      }
+
+      button[type="submit"]:hover {
+        background: #1d4ed8;
+      }
+
+      /* FOOTER */
+      footer
+      {
+        background: #1f2937;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        margin-top: auto;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 500px) {
+        header {
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px;
+        }
+        .hero {
+          margin-top: 120px;
+        }
+      }

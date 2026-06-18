@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <header>
+      <h2>Task Manager</h2>
+      <nav>
+        <button id="showSignIn">Sign In</button>
+        <button id="showSignUp">Sign Up</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="hero">
+        <h1>Smart Task Manager</h1>
+        <p class="subtitle">Organize your life and never miss deadlines</p>
+
+        <div class="features">
+          <div class="feature-box">
+            <h3>📌 Tasks</h3>
+            <p>Create and manage tasks easily.</p>
+          </div>
+
+          <div class="feature-box">
+            <h3>⏰ Reminders</h3>
+            <p>Get alerts before deadlines.</p>
+          </div>
+
+          <div class="feature-box">
+            <h3>📧 Email</h3>
+            <p>Automatic email notifications.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div id="signinOverlay" class="form-overlay">
+      <div class="form-container">
+        <button class="close-btn" onclick="closeModals()">&times;</button>
+        <form id="signInForm">
+          <h3>Sign In</h3>
+          <input id="signin-email" type="email" placeholder="Email" required />
+          <input
+            id="signin-password"
+            type="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="signupOverlay" class="form-overlay">
+      <div class="form-container">
+        <button class="close-btn" onclick="closeModals()">&times;</button>
+        <form id="signUpForm">
+          <h3>Sign Up</h3>
+          <input id="signup-email" type="email" placeholder="Email" required />
+          <input
+            id="signup-username"
+            type="text"
+            placeholder="Username"
+            required
+          />
+          <input
+            id="signup-password"
+            type="password"
+            placeholder="Password"
+            required
+          />
+          <input id="signup-major" type="text" placeholder="Major (optional)" />
+          <button type="submit">Create Account</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Task Manager System | Built by Junior</p>
+    </footer>
+
+    <script>
+      const signInBtn = document.getElementById("showSignIn");
+      const signUpBtn = document.getElementById("showSignUp");
+
+      const signInOverlay = document.getElementById("signinOverlay");
+      const signUpOverlay = document.getElementById("signupOverlay");
+
+      function openModal(overlay) {
+        closeModals(); // Close any currently open modal first
+        overlay.classList.add("active");
+      }
+
+      function closeModals() {
+        signInOverlay.classList.remove("active");
+        signUpOverlay.classList.remove("active");
+      }
+
+      signInBtn.onclick = () => openModal(signInOverlay);
+      signUpBtn.onclick = () => openModal(signUpOverlay);
+
+      // Close modal if user clicks outside the form box
+      window.onclick = (event) => {
+        if (event.target === signInOverlay || event.target === signUpOverlay) {
+          closeModals();
+        }
+      };
+    </script>
+  </body>
+</html>
