@@ -81,35 +81,9 @@
     </div>
 
     <footer>
-      <p>© 2026 Task Manager System | Built by Junior</p>
+      <p>© 2026 Task Manager System | Built by Dev Team</p>
     </footer>
 
-    <script>
-      const signInBtn = document.getElementById("showSignIn");
-      const signUpBtn = document.getElementById("showSignUp");
-
-      const signInOverlay = document.getElementById("signinOverlay");
-      const signUpOverlay = document.getElementById("signupOverlay");
-
-      function openModal(overlay) {
-        closeModals(); // Close any currently open modal first
-        overlay.classList.add("active");
-      }
-
-      function closeModals() {
-        signInOverlay.classList.remove("active");
-        signUpOverlay.classList.remove("active");
-      }
-
-      signInBtn.onclick = () => openModal(signInOverlay);
-      signUpBtn.onclick = () => openModal(signUpOverlay);
-
-      // Close modal if user clicks outside the form box
-      window.onclick = (event) => {
-        if (event.target === signInOverlay || event.target === signUpOverlay) {
-          closeModals();
-        }
-      };
-    </script>
+    <script src="../script.js"></script>
   </body>
 </html>

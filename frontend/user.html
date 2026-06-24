@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Task Management System</title>
+    <link rel="stylesheet" href="user.css">
+  </head>
+
+  <body>
+
+    <header>
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+        TaskFlow
+      </div>
+      <nav>
+        <a href="#creation-view">Add Task</a>
+        <a href="#search-view">Search & Feed</a>
+        <button class="btn-logout" onclick="logoutSession()">Logout</button>
+      </nav>
+    </header>
+
+    <div class="container">
+      
+      <section id="creation-view" class="panel-section">
+        <div class="intro-block">
+          <h1>Task Compilation Desk</h1>
+          <p>Initialize project targets, document functional milestones, and bind reminders. Hover or click on the field below to bring down the complete configuration window.</p>
+        </div>
+
+        <div class="card expandable-card">
+          <h2>Create New Records</h2>
+          
+          <input 
+            type="text" 
+            class="collapsible-trigger-input" 
+            placeholder="➕ Click or Hover here to reveal Form Fields..." 
+            readonly
+          >
+
+          <div class="form-expansion-wrapper">
+            <form id="addTaskForm">
+              <label for="task_name">Task Title *</label>
+              <input type="text" id="task_name" placeholder="e.g., Run localized system metrics" required />
+
+              <label for="category">Category</label>
+              <input type="text" id="category" placeholder="e.g., Backend Testing" />
+
+              <label for="task_type">Task Type</label>
+              <input type="text" id="task_type" placeholder="e.g., Core Engine Optimization" />
+
+              <label for="description">Detailed Description</label>
+              <textarea id="description" placeholder="Write operational metrics or logs here..."></textarea>
+
+              <label for="reminder_time">Execution Schedule</label>
+              <input type="datetime-local" id="reminder_time" />
+
+              <button type="submit">Deploy Task to Database</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="search-view" class="panel-section">
+        <div class="intro-block">
+          <h1>Search Engine & Core Feed</h1>
+          <p>Query your records in real-time. Use the filters below to isolate data matching specific parameters.</p>
+        </div>
+
+        <div class="card">
+          <h2>Database Search Matrix</h2>
+          
+         <form id="search-group">
+            <select id="searchType" >
+              <option value="task_name">Task Name</option>
+              <option value="category">Category</option>
+              <option value="task_type">Task Type</option>
+              <option value="reminder_time">Time Parameter</option>
+            </select>
+            
+            <input
+              type="text"
+              id="searchValue"
+              placeholder="Input matching database query strings..."
+            />
+          <button id="search" type="submit" value="search">Execute Search Query</button>
+          <button type="reset" class="btn-secondary" id="viewAll" value="reset">Reset System</button>
+           </form>
+          <div class="display-zone-heading">Search Output Feed</div>
+          <div id="taskList"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>
+      &copy; 2026 TaskFlow Platform Control System. All engine operations validated.
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

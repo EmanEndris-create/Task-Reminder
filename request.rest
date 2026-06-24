@@ -1,0 +1,10 @@
+GET http://localhost:8080/posts
+###
+POST http://localhost:8080/sign-in
+Content-Type: application/json
+
+{
+  "signIn_email": "liana@gmail.com",
+  "signIn_password": "123456"
+}
+
