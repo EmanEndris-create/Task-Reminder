@@ -13,6 +13,12 @@ const transporter = require('./mail/mailer');
 const cors = require('cors');
 const { text } = require('stream/consumers');
 
+app.use(cors({
+  origin: 'https://task-reminderapp.netlify.app',
+  methods: ['GET','POST','PUT','DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('frontend'));
@@ -205,9 +211,6 @@ app.get('/search-task/:searchType/:searchValue', authenticateToken, async(req, r
   }
 });
 
-app.use(cors({
-  origin: 'https://task-reminderapp.netlify.app/'
-}));
 
 app.listen(PORT, ()=>{
   createTable();
