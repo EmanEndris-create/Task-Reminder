@@ -1,3 +1,4 @@
+const API_URL = 'https://task-reminder-67ul.onrender.com';
 const signInBtn = document.getElementById("showSignIn"); 
 const signUpBtn = document.getElementById("showSignUp"); 
 const signInOverlay = document.getElementById("signinOverlay"); const signUpOverlay = document.getElementById("signupOverlay"); 
@@ -39,7 +40,7 @@ signUpForm.addEventListener('submit', async(event)=>{
   }
 
   try{
-    const response = await fetch('/sign-up', {
+    const response = await fetch(`${API_URL}/sign-up`, {
       method: 'POST',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify(data),
@@ -79,7 +80,7 @@ signInForm.addEventListener('submit', async(event)=>{
   }
 
   try{
-    const response = await fetch('/sign-in', {
+    const response = await fetch(`${API_URL}/sign-in`, {
       method: 'POST',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify(data),
@@ -139,7 +140,7 @@ async function authenticatedFetch(url, options) {
 
   if(response.status === 403)
     {
-      const refreshResponse = await fetch('/refresh-token', {
+      const refreshResponse = await fetch(`${API_URL}/refresh-token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify({refreshToken: localStorage.getItem('refreshToken')})
@@ -181,7 +182,7 @@ addTaskForm.addEventListener('submit', async(event)=>{
   }
 
   try{
-    const response = await authenticatedFetch('/add-task', {
+    const response = await authenticatedFetch(`${API_URL}/add-task`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`},
       body: JSON.stringify(data)
@@ -228,7 +229,7 @@ searchTask.addEventListener('submit', async(event)=>{
       return;
     }
   try{
-    const response = await authenticatedFetch(`/search-task/${searchType}/${encodeURIComponent(searchValue)}`, {
+    const response = await authenticatedFetch( `${API_URL}/search-task/${searchType}/${encodeURIComponent(searchValue)}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`

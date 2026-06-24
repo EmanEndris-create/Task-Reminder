@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 require('./reminder/taskreminder');
 const transporter = require('./mail/mailer');
+const cors = require('cors');
 const { text } = require('stream/consumers');
 
 app.use(express.json());
@@ -204,6 +205,9 @@ app.get('/search-task/:searchType/:searchValue', authenticateToken, async(req, r
   }
 });
 
+app.use(cors({
+  origin: 'https://task-reminderapp.netlify.app/'
+}));
 
 app.listen(PORT, ()=>{
   createTable();
