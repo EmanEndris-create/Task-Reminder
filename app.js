@@ -4,7 +4,7 @@ const createTable = require('./database/createTable');
 const pool = require('./database/pool');
 const path = require('path');
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 3306;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
