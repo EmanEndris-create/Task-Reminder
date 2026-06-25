@@ -58,7 +58,7 @@ app.post('/sign-up', async(req, res)=>{
         Thank you for using our application.`
       });
       console.log('welcome email sent.');
-    }catch(err){
+    }catch(error){
       res.status(500).json({success: false, errormessage: error.message});
     console.log(error.message);
     }
