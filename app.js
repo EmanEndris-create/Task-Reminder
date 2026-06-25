@@ -14,8 +14,11 @@ const cors = require('cors');
 const { text } = require('stream/consumers');
 
 app.use(cors({
-  origin: 'https://task-reminderapp.netlify.app',
-  methods: ['GET','POST','PUT','DELETE'],
+  origin: [
+    'https://task-reminderapp.netlify.app', 
+    'http://localhost:3000', 
+    'http://127.0.0.1:5500'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
