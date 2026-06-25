@@ -42,8 +42,8 @@ app.get('/script.js', async(req, res)=>{
 app.post("/sign-up", async (req, res) => {
   const { signUp_email, signUp_username, signUp_password, signUp_major } = req.body;
   
-  const checkCmd = `SELECT password FROM Users WHERE email=?`;
-  const insertCmd = `INSERT INTO Users(email, userName, password, major) VALUES (?,?,?,?);`;
+  const checkCmd = `SELECT Password FROM Users WHERE Email=?`;
+  const insertCmd = `INSERT INTO Users(Email, Username, Password, Major) VALUES (?,?,?,?);`;
 
   try {
     const email = signUp_email || null;
@@ -97,11 +97,12 @@ app.post("/sign-up", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Signup error:", error);
-    res.status(500).json({ success: false, message: "Internal server error", errorDetail: error.message });
-  }
+  console.error("Signup error FULL:", error);
+  console.error("Signup error message:", error.message);
+  console.error("Signup error stack:", error.stack);
+  res.status(500).json({success: false, message: "Internal server error", errorDetail: error.message});
+}
 });
- 
 
 app.post('/sign-in', async(req, res)=>{
   const{signIn_email, signIn_password} = req.body;

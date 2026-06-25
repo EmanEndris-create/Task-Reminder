@@ -47,6 +47,7 @@ signUpForm.addEventListener('submit', async(event)=>{
     });
     
     const result = await response.json();
+    console.log("Server response:", result);
     if(result.success){
       alert(`${result.message}`);
       console.log(`${result.message}`);
