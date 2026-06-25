@@ -23,6 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('frontend'));
 
+console.log({
+  DB_HOST: process.env.DB_HOST,
+  MYSQLHOST: process.env.MYSQLHOST
+});
 
 app.get('/script.js', async(req, res)=>{
   try{
