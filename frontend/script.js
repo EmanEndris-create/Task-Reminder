@@ -56,9 +56,10 @@ signUpForm.addEventListener('submit', async(event)=>{
 
       window.location.href = '/user.html';
     }else{
-      alert(`Error occurred: ${result.errormessage}`);
-      console.log(`Error occurred: ${result.errormessage}`);
-    }
+  const msg = result.errormessage || result.message || result.error || "Unknown error";
+  alert(`Error occurred: ${msg}`);
+  console.log(`Error occurred: ${msg}`);
+  }
   }catch(error){
     console.log('Could not connect to the server.');
   }
