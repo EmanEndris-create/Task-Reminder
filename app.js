@@ -54,13 +54,13 @@ app.post("/sign-up", async (req, res) => {
     if (!email || !password || !username) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
-    const [rows] = await pool.execute(checkCmd, [email]);
+    const [rows] = await pool.query(checkCmd, [email]);
     if (rows.length > 0) {
       return res.status(409).json({ success: false, message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const value = [email, username, hashedPassword, major];
-    const [insertedResults] = await pool.execute(insertCmd, value);
+    const [insertedResults] = await pool.query(insertCmd, value);
 
     const userId = insertedResults.insertId;
 
