@@ -40,23 +40,37 @@ app.get('/script.js', async(req, res)=>{
 });
 
 
-app.post('/sign-up', async(req, res)=>{
-  const {signUp_email, signUp_username, signUp_password, signUp_major} = req.body;
-  try{
-  console.log('Signing up user...');
-  const hashedPassword = await bcrypt.hash(signUp_password, 10);
-  const signUpMajor = signUp_major || null;
-  const signUpData = [signUp_email, signUp_username, hashedPassword, signUpMajor];
-  const insertSignUp = `INSERT INTO Users(Email, Username, Password, Major)
-  VALUES(?, ?, ?, ?)`;
+app.post("/sign-up", async (req, res) => {
+  const { email, userName, password, major } = req.body;
+  const checkCmd = `SELECT password FROM usersInfo WHERE email=?`;
+  const insertCmd = `INSERT INTO usersInfo(email,userName,password,major) VALUES (?,?,?,?);`;
 
-    console.log('signed up information are being inserted.');
-    const[result] = await pool.query(insertSignUp, signUpData);
+  try {
+    const [rows] = await pool.execute(checkCmd, [email]);
+    if (rows.length > 0) {
+      return res
+        .status(409)
+        .json({ success: false, message: "User already exists" });
+    }
 
-    const userId = result.insertId;
-    console.log('User inserted with ID:', userId);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const value = [email, userName, hashedPassword, major || null];
+    const [insertedResults] = await pool.execute(insertCmd, value);
 
-    try{
+    const userId = insertedResults.insertId;
+
+    const AccessToken = jwt.sign(
+      { user: userId, email: email },
+      process.env.Access_Control,
+      { expiresIn: "15m" },
+    );
+
+    const RefreshToken = jwt.sign(
+      { user: userId, email: email },
+      process.env.Refresh_Control,
+      { expiresIn: "7d" },
+    );
+     try{
       console.log('About to send welcome email to:', signUp_email);
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
@@ -72,30 +86,18 @@ app.post('/sign-up', async(req, res)=>{
     }catch (emailError) {
       console.log('Email failed but signup succeeded:', emailError.message);
     }
-
-      const accessToken = jwt.sign({
-      id: userId,         
-      email: signUp_email
-    },
-    process.env.ACCESS_TOKEN_SECRET,{
-    expiresIn: '15m'
-  });
-
-    const refreshToken = jwt.sign({
-      id: userId,         
-      email: signUp_email
-    },
-    process.env.REFRESH_TOKEN_SECRET,{
-    expiresIn: '7d'
-  });
-
-    res.status(201).json({success: true, message: 'sign Up information are inserted successfully.',accessToken, refreshToken});
-    console.log('sign Up information are inserted successfully');
-  }catch (error) {
-    console.log('Signup error:', error.message);
-    return res.status(500).json({success: false, message: 'Signup failed', errormessage: error.message});
+    res.status(200).json({
+      RefreshToken: RefreshToken,
+      AccessToken: AccessToken,
+      message: "Signed up and logged in successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Signup error:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+ 
 
 app.post('/sign-in', async(req, res)=>{
   const{signIn_email, signIn_password} = req.body;
