@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2/promise');
 const createTable = require('./database/createTable');
@@ -7,7 +8,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 require('./reminder/taskreminder');
 const transporter = require('./mail/mailer');
 const cors = require('cors');
