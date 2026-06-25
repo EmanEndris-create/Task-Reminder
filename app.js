@@ -41,60 +41,65 @@ app.get('/script.js', async(req, res)=>{
 
 
 app.post("/sign-up", async (req, res) => {
-  const { email, userName, password, major } = req.body;
+  const { signUp_email, signUp_username, signUp_password, signUp_major } = req.body;
+  
   const checkCmd = `SELECT password FROM usersInfo WHERE email=?`;
-  const insertCmd = `INSERT INTO usersInfo(email,userName,password,major) VALUES (?,?,?,?);`;
+  const insertCmd = `INSERT INTO usersInfo(email, userName, password, major) VALUES (?,?,?,?);`;
 
   try {
+    const email = signUp_email || null;
+    const username = signUp_username || null;
+    const password = signUp_password || null;
+    const major = signUp_major || null;
+
+    if (!email || !password || !username) {
+      return res.status(400).json({ success: false, message: "Missing required fields" });
+    }
     const [rows] = await pool.execute(checkCmd, [email]);
     if (rows.length > 0) {
-      return res
-        .status(409)
-        .json({ success: false, message: "User already exists" });
+      return res.status(409).json({ success: false, message: "User already exists" });
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
-    const value = [email, userName, hashedPassword, major || null];
+    const value = [email, username, hashedPassword, major];
     const [insertedResults] = await pool.execute(insertCmd, value);
 
     const userId = insertedResults.insertId;
 
     const AccessToken = jwt.sign(
-      { user: userId, email: email },
-      process.env.Access_Control,
-      { expiresIn: "15m" },
+      { id: userId, email: email },
+      process.env.ACCESS_TOKEN_SECRET || process.env.Access_Control,
+      { expiresIn: "15m" }
     );
 
     const RefreshToken = jwt.sign(
-      { user: userId, email: email },
-      process.env.Refresh_Control,
-      { expiresIn: "7d" },
+      { id: userId, email: email },
+      process.env.REFRESH_TOKEN_SECRET || process.env.Refresh_Control,
+      { expiresIn: "7d" }
     );
-     try{
-      console.log('About to send welcome email to:', signUp_email);
+
+    try {
+      console.log('About to send welcome email to:', email);
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
-        to: signUp_email,
+        to: email,
         subject: 'Welcome to task reminder',
-        text: `Hello ${signUp_username}, welcome to Task Reminder!
-        Your account has been created successfully.
-        You can now create tasks and receive reminder emails before their execution time.
-
-        Thank you for using our application.`
+        text: `Hello ${username}, welcome to Task Reminder!\n\nYour account has been created successfully.\nYou can now create tasks and receive reminder emails before their execution time.\n\nThank you for using our application.`
       });
       console.log('welcome email sent.');
-    }catch (emailError) {
+    } catch (emailError) {
       console.log('Email failed but signup succeeded:', emailError.message);
     }
+
     res.status(200).json({
-      RefreshToken: RefreshToken,
-      AccessToken: AccessToken,
+      refreshToken: RefreshToken,
+      accessToken: AccessToken,
       message: "Signed up and logged in successfully",
       success: true,
     });
+
   } catch (error) {
     console.error("Signup error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "Internal server error", errorDetail: error.message });
   }
 });
  
