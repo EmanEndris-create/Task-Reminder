@@ -15,12 +15,10 @@ const { text } = require('stream/consumers');
 
 app.use(cors({
   origin: [
-    'https://task-reminderapp.netlify.app',
     'https://task-reminder-production-5ed8.up.railway.app',
     'http://localhost:3000',
     'http://127.0.0.1:5500'
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
@@ -28,9 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('frontend'));
 
-console.log({
-  DB_HOST: process.env.DB_HOST,
-  MYSQLHOST: process.env.MYSQLHOST
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
 app.get('/script.js', async(req, res)=>{
