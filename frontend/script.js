@@ -1,4 +1,4 @@
-const API_URL = 'task-reminder-production-5ed8.up.railway.app';
+const API_URL ='https://task-reminder-production-5ed8.up.railway.app';
 const signInBtn = document.getElementById("showSignIn"); 
 const signUpBtn = document.getElementById("showSignUp"); 
 const signInOverlay = document.getElementById("signinOverlay"); const signUpOverlay = document.getElementById("signupOverlay"); 
