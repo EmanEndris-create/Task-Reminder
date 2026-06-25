@@ -35,15 +35,19 @@ app.get('/script.js', async(req, res)=>{
 
 app.post('/sign-up', async(req, res)=>{
   const {signUp_email, signUp_username, signUp_password, signUp_major} = req.body;
+  try{
+  console.log('Signing up user...');
   const hashedPassword = await bcrypt.hash(signUp_password, 10);
   const signUpMajor = signUp_major || null;
   const signUpData = [signUp_email, signUp_username, hashedPassword, signUpMajor];
   const insertSignUp = `INSERT INTO Users(Email, Username, Password, Major)
   VALUES(?, ?, ?, ?)`;
 
-  try{
     console.log('signed up information are being inserted.');
     const[result] = await pool.query(insertSignUp, signUpData);
+
+    const userId = result.insertId;
+    console.log('User inserted with ID:', userId);
 
     try{
       console.log('About to send welcome email to:', signUp_email);
@@ -58,13 +62,12 @@ app.post('/sign-up', async(req, res)=>{
         Thank you for using our application.`
       });
       console.log('welcome email sent.');
-    }catch(error){
-      res.status(500).json({success: false, errormessage: error.message});
-    console.log(error.message);
+    }catch (emailError) {
+      console.log('Email failed but signup succeeded:', emailError.message);
     }
 
       const accessToken = jwt.sign({
-      id: result.insertId,         
+      id: userId,         
       email: signUp_email
     },
     process.env.ACCESS_TOKEN_SECRET,{
@@ -72,7 +75,7 @@ app.post('/sign-up', async(req, res)=>{
   });
 
     const refreshToken = jwt.sign({
-      id: result.insertId,         
+      id: userId,         
       email: signUp_email
     },
     process.env.REFRESH_TOKEN_SECRET,{
@@ -81,9 +84,9 @@ app.post('/sign-up', async(req, res)=>{
 
     res.status(201).json({success: true, message: 'sign Up information are inserted successfully.',accessToken, refreshToken});
     console.log('sign Up information are inserted successfully');
-  }catch(error){
-    res.status(500).json({success: false, errormessage: error.message});
-    console.log(error.message);
+  }catch (error) {
+    console.log('Signup error:', error.message);
+    return res.status(500).json({success: false, message: 'Signup failed', errormessage: error.message});
   }
 });
 
