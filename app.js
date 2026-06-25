@@ -59,7 +59,8 @@ app.post('/sign-up', async(req, res)=>{
       });
       console.log('welcome email sent.');
     }catch(err){
-      console.error('Welcome email failed:', err.message);
+      res.status(500).json({success: false, errormessage: error.message});
+    console.log(error.message);
     }
 
       const accessToken = jwt.sign({
