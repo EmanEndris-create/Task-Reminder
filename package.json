@@ -2,7 +2,7 @@
   "name": "task-reminder",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "start": "node app.js",
     "devStart": "nodemon app.js",
