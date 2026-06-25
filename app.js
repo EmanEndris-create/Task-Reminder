@@ -43,8 +43,8 @@ app.get('/script.js', async(req, res)=>{
 app.post("/sign-up", async (req, res) => {
   const { signUp_email, signUp_username, signUp_password, signUp_major } = req.body;
   
-  const checkCmd = `SELECT password FROM usersInfo WHERE email=?`;
-  const insertCmd = `INSERT INTO usersInfo(email, userName, password, major) VALUES (?,?,?,?);`;
+  const checkCmd = `SELECT password FROM Users WHERE email=?`;
+  const insertCmd = `INSERT INTO Users(email, userName, password, major) VALUES (?,?,?,?);`;
 
   try {
     const email = signUp_email || null;
